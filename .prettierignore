@@ -1,0 +1,7 @@
+node_modules
+dist
+public
+package-lock.json
+src/ui/classes.json
+src/ui/icons.json
+docs/references/assets.json

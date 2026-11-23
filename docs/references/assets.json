@@ -1,0 +1,73 @@
+[
+  {
+    "file": "public/images/hero.jpg",
+    "sourceUrl": "https://static.cdn-cian.ru/frontend/collections-assets/mainpage/main-banner-new-brand.jpg",
+    "captured": "2026-11-16",
+    "sha256": "54e6ca3d41c9c10ce7c4d83cc56fd2964ee778420b20d4f81aeec2337a963f09",
+    "use": "Visual reference photo; listing data is synthetic."
+  },
+  {
+    "file": "public/images/apartment-1.webp",
+    "sourceUrl": "https://images.cdn-cian.ru/images/kvartira-moskva-dorozhnaya-ulica-3017560800-4.jpg",
+    "captured": "2026-11-16",
+    "sha256": "927d10a969f3ff51d21bad40a3157966941bd0d82d83b114a76517ee4a2c2b3d",
+    "use": "Visual reference photo; listing data is synthetic."
+  },
+  {
+    "file": "public/images/apartment-2.webp",
+    "sourceUrl": "https://images.cdn-cian.ru/images/kvartira-moskva-kashirskoe-shosse-2691522543-4.jpg",
+    "captured": "2026-11-16",
+    "sha256": "ec6916d6474d3130c81cbe95ec7b451bd1e30368f1ef7db81e8d624e4b883de8",
+    "use": "Visual reference photo; listing data is synthetic."
+  },
+  {
+    "file": "public/images/apartment-3.webp",
+    "sourceUrl": "https://images.cdn-cian.ru/images/kvartira-moskva-ulica-krasnogo-mayaka-3017417308-4.jpg",
+    "captured": "2026-11-16",
+    "sha256": "845a56195738a67c7984a5fadc376793a26eab9470b0a97af47d74410c8474ad",
+    "use": "Visual reference photo; listing data is synthetic."
+  },
+  {
+    "file": "public/images/apartment-4.webp",
+    "sourceUrl": "https://images.cdn-cian.ru/images/kvartira-moskva-lipeckaya-ulica-3014013646-4.jpg",
+    "captured": "2026-11-16",
+    "sha256": "8d017103ba3231e45a8940701b16b025ac85b21b1f25d496cc3aadb5db271c16",
+    "use": "Visual reference photo; listing data is synthetic."
+  },
+  {
+    "file": "public/images/apartment-5.webp",
+    "sourceUrl": "https://images.cdn-cian.ru/images/3002165902-4.jpg",
+    "captured": "2026-11-16",
+    "sha256": "1df4f2f7ea74b5e9cb3250cfb46cc1e7f937c4a7baea02e02fcf6b3388e9ca34",
+    "use": "Visual reference photo; listing data is synthetic."
+  },
+  {
+    "file": "public/images/apartment-6.webp",
+    "sourceUrl": "https://images.cdn-cian.ru/images/kvartira-moskva-hodynskiy-bulvar-2988374316-4.jpg",
+    "captured": "2026-11-16",
+    "sha256": "04cfc085d117c391dda1675f5249dcb4b6b497041ed401ae90cb8620df037908",
+    "use": "Visual reference photo; listing data is synthetic."
+  },
+  {
+    "file": "public/images/apartment-7.webp",
+    "sourceUrl": "https://images.cdn-cian.ru/images/kvartira-moskva-ulica-podolskih-kursantov-3014556136-4.jpg",
+    "captured": "2026-11-16",
+    "sha256": "9651852e39815b46289e07e67fa686ae154e923938ff55725c0cda70c5bc8221",
+    "use": "Visual reference photo; listing data is synthetic."
+  },
+  {
+    "file": "public/images/apartment-8.webp",
+    "sourceUrl": "https://images.cdn-cian.ru/images/2992399141-4.jpg",
+    "captured": "2026-11-16",
+    "sha256": "3c9d3289779e6afd0517ae36c39f90b5d47778c60e80b963b4958cffa998d64d",
+    "use": "Visual reference photo; listing data is synthetic."
+  },
+  {
+    "file": "public/images/logo.svg",
+    "sourceUrl": "https://www.cian.ru/",
+    "captured": "2026-11-16",
+    "sha256": "b6e7e30bc3a6576676ed25175bd8fa64fd805d9367b5dc83af08967b85d9f87d",
+    "use": "Observed header logo SVG",
+    "adaptation": "Resolve logo CSS variables to light-mode fills for standalone SVG image."
+  }
+]

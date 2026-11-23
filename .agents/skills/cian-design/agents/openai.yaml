@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Cian Design'
+  short_description: 'Кликабельные прототипы на UI-kit Циана'
+  default_prompt: 'Используй $cian-design, чтобы собрать запрошенный экран из компонентов этого проекта и проверить сценарий.'
+policy:
+  allow_implicit_invocation: true

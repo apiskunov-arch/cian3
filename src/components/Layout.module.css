@@ -1,0 +1,296 @@
+.shell {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+.content {
+  flex: 1;
+}
+.header {
+  background: var(--background-primary);
+  border-bottom: 1px solid var(--stroke-divider-default);
+}
+.topbar {
+  height: 72px;
+  max-width: 1360px;
+  margin: auto;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+.logo {
+  display: block;
+  flex: none;
+}
+.logo img {
+  width: 112px;
+  height: 28px;
+}
+.actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.assistant {
+  border: 0;
+  border-radius: 20px;
+  background: var(--background-secondary);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-main-default);
+  padding: 4px 12px;
+  cursor: pointer;
+}
+.assistant span {
+  font-size: 18px;
+  margin-right: 6px;
+}
+.desktopIcon,
+.favoriteLink,
+.menuButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  color: var(--icon-main-default);
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 8px;
+  position: relative;
+}
+.favoriteLink > span:last-child:not(:first-child) {
+  position: absolute;
+  right: -2px;
+  top: -2px;
+  background: var(--control-main-primary-default);
+  color: var(--text-on-bright-default);
+  font-size: 10px;
+  line-height: 16px;
+  min-width: 16px;
+  text-align: center;
+  border-radius: 8px;
+}
+.nav {
+  max-width: 1360px;
+  margin: auto;
+  height: 48px;
+  display: flex;
+  align-items: stretch;
+  padding: 0 16px;
+  gap: 32px;
+}
+.nav > a,
+.nav > button {
+  display: flex;
+  align-items: center;
+  color: var(--text-primary-default);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+  background: none;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: none;
+}
+.nav > a:hover,
+.nav > button:hover {
+  color: var(--text-main-default);
+}
+.nav .active {
+  border-bottom-color: var(--control-main-primary-default);
+  color: var(--text-main-default);
+}
+.nav .kitLink {
+  margin-left: auto;
+  color: var(--text-main-default);
+}
+.menuButton,
+.mobileText {
+  display: none;
+}
+.page {
+  max-width: 1328px;
+  width: calc(100% - 48px);
+  margin: 0 auto;
+  padding: 32px 0 64px;
+}
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 40px;
+}
+.primary {
+  min-width: 0;
+}
+.aside {
+  min-width: 0;
+}
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary-default);
+  margin-bottom: 24px;
+}
+.breadcrumbs > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.breadcrumbs a {
+  color: inherit;
+}
+.footer {
+  border-top: 1px solid var(--stroke-divider-default);
+  background: var(--background-primary);
+  color: var(--text-secondary-default);
+  font-size: 12px;
+}
+.footerInner {
+  max-width: 1328px;
+  width: calc(100% - 48px);
+  margin: auto;
+  padding: 32px 0;
+}
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-bottom: 24px;
+}
+.footerLinks button {
+  border: 0;
+  background: none;
+  color: var(--text-secondary-default);
+  font-size: 12px;
+  padding: 0;
+  cursor: pointer;
+}
+.footerLinks button:hover {
+  color: var(--text-main-default);
+}
+.footerBottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  margin-top: 24px;
+}
+.footerBottom > a {
+  color: inherit;
+}
+.footerBottom > span:last-child {
+  margin-left: auto;
+}
+.desktopIcon:focus-visible,
+.favoriteLink:focus-visible,
+.menuButton:focus-visible,
+.nav button:focus-visible {
+  outline: 2px solid var(--stroke-control-focused);
+  outline-offset: 2px;
+}
+@media (max-width: 1150px) {
+  .nav {
+    gap: 22px;
+    overflow: auto;
+  }
+  .nav button:nth-of-type(5),
+  .nav button:nth-of-type(6) {
+    display: none;
+  }
+  .columns {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 24px;
+  }
+}
+@media (max-width: 760px) {
+  .topbar {
+    height: 64px;
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .logo img {
+    width: 96px;
+    height: 24px;
+  }
+  .menuButton {
+    display: inline-flex;
+    padding: 0;
+    color: var(--text-primary-default);
+  }
+  .actions {
+    gap: 8px;
+    margin-left: auto;
+  }
+  .assistant,
+  .desktopIcon,
+  .signin,
+  .desktopText {
+    display: none;
+  }
+  .mobileText {
+    display: inline;
+  }
+  .favoriteLink {
+    padding: 4px;
+  }
+  .actions button {
+    font-size: 12px;
+  }
+  .nav {
+    display: none;
+    overflow: visible;
+    height: auto;
+    padding: 8px 16px 20px;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .navOpen {
+    display: flex;
+  }
+  .nav > a,
+  .nav > button {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: var(--background-secondary);
+    font-weight: 400;
+  }
+  .nav .kitLink {
+    margin-left: 0;
+  }
+  .nav button:nth-of-type(5),
+  .nav button:nth-of-type(6) {
+    display: flex;
+  }
+  .page {
+    width: calc(100% - 32px);
+    padding: 24px 0 40px;
+  }
+  .columns {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .aside {
+    width: 100%;
+  }
+  .footerInner {
+    width: calc(100% - 32px);
+    padding: 24px 0;
+  }
+  .footerLinks {
+    gap: 16px;
+  }
+  .footerBottom {
+    gap: 12px;
+  }
+  .breadcrumbs {
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+}

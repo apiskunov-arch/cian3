@@ -1,0 +1,401 @@
+.hero {
+  height: 544px;
+  background:
+    linear-gradient(#0d162e0a, #0d162e0a),
+    url('/images/hero.jpg') center 48% / cover;
+}
+.heroInner {
+  max-width: 1328px;
+  width: calc(100% - 48px);
+  height: 100%;
+  margin: auto;
+  position: relative;
+  padding-top: 112px;
+}
+.location {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: white;
+  background: #0007;
+  padding: 6px 10px;
+  border-radius: 4px;
+}
+.hero h1 {
+  text-align: center;
+  color: #fff;
+  font-size: 38px;
+  line-height: 46px;
+  letter-spacing: -0.8px;
+  text-shadow: 0 1px 12px #0002;
+  margin-bottom: 16px;
+}
+.recommendations {
+  max-width: 1328px;
+  width: calc(100% - 48px);
+  margin: 0 auto;
+  padding: 48px 0 64px;
+}
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.sectionHeader h2 {
+  font-size: 28px;
+  line-height: 36px;
+}
+.sectionHeader > a {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+.localBanner {
+  margin-top: 56px;
+  background: var(--background-secondary);
+  border-radius: 16px;
+  padding: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.localBanner h2 {
+  margin-top: 16px;
+}
+.localBanner p {
+  margin-top: 8px;
+  color: var(--text-secondary-default);
+  font-size: 14px;
+}
+.primaryLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: var(--control-main-primary-default);
+  color: var(--text-on-bright-default);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.primaryLink:hover {
+  background: var(--control-main-primary-hovered);
+  text-decoration: none;
+}
+.resultsToolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 20px 0;
+}
+.resultsToolbar > strong {
+  font-size: 14px;
+  margin-right: 4px;
+}
+.saveSearch {
+  margin-left: auto;
+  color: var(--text-main-default);
+  font-size: 14px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.activeFilters {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 12px;
+  margin: 16px 0 8px;
+}
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  padding: 72px 20px;
+  background: var(--background-secondary);
+  border-radius: 12px;
+  margin-top: 32px;
+}
+.empty p {
+  max-width: 420px;
+  color: var(--text-secondary-default);
+}
+.empty > span {
+  color: var(--text-main-default);
+}
+.skeletonCard {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 28px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--stroke-divider-default);
+}
+.back {
+  display: inline-block;
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+.detailLabels {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.detailLabels > span:last-child {
+  font-size: 12px;
+  color: var(--text-secondary-default);
+  margin-left: 8px;
+}
+.detailTitle {
+  font-size: 32px;
+  line-height: 40px;
+  margin-bottom: 20px;
+  max-width: 680px;
+}
+.detailAddress {
+  font-size: 14px;
+  line-height: 22px;
+  margin-bottom: 8px;
+}
+.detailMetro {
+  font-size: 14px;
+  line-height: 20px;
+}
+.detailMetro > span:first-child {
+  color: var(--text-negative-default);
+  font-size: 12px;
+  font-weight: 700;
+}
+.detailTools {
+  display: flex;
+  gap: 8px;
+  margin-top: 24px;
+}
+.descriptionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 32px 0 0;
+}
+.descriptionSection > p {
+  max-width: 720px;
+  font-size: 16px;
+  line-height: 26px;
+}
+.specs {
+  display: flex;
+  gap: 32px;
+  margin: 0;
+  padding: 0;
+}
+.specs dt {
+  color: var(--text-secondary-default);
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+.specs dd {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+}
+.specTable {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 16px;
+  margin: 0;
+  font-size: 14px;
+}
+.specTable dt {
+  color: var(--text-secondary-default);
+}
+.specTable dd {
+  margin: 0;
+}
+.guide {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1000px;
+}
+.guide h1 {
+  font-size: 38px;
+  line-height: 46px;
+}
+.guideCards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 16px 0;
+}
+.guideCards > a {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: var(--background-secondary);
+  border-radius: 12px;
+  color: var(--text-primary-default);
+  text-decoration: none;
+}
+.guideCards > a:hover {
+  background: var(--surface-main-default);
+}
+.guideCards p {
+  font-size: 14px;
+  color: var(--text-secondary-default);
+}
+.guideCards span {
+  font-size: 14px;
+  color: var(--text-main-default);
+}
+.guide li {
+  margin-bottom: 12px;
+}
+.patternLinks {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 12px 0 24px;
+}
+.patternLinks a {
+  padding: 12px 16px;
+  background: var(--surface-main-default);
+  border-radius: 8px;
+  font-size: 14px;
+}
+@media (max-width: 1100px) {
+  .cardGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .hero {
+    height: 460px;
+  }
+  .heroInner {
+    padding-top: 96px;
+  }
+  .localBanner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+@media (max-width: 760px) {
+  .hero {
+    height: 380px;
+    background-position: center;
+  }
+  .heroInner {
+    width: calc(100% - 32px);
+    padding-top: 96px;
+  }
+  .hero h1 {
+    font-size: 28px;
+    line-height: 34px;
+    max-width: 320px;
+    margin: 0 auto 24px;
+  }
+  .location {
+    font-size: 12px;
+    top: 16px;
+  }
+  .recommendations {
+    width: calc(100% - 32px);
+    padding: 32px 0;
+  }
+  .sectionHeader {
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+  .sectionHeader h2 {
+    font-size: 22px;
+    line-height: 28px;
+  }
+  .sectionHeader > a {
+    font-size: 12px;
+    white-space: nowrap;
+    padding-top: 4px;
+  }
+  .cardGrid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .localBanner {
+    margin-top: 32px;
+    padding: 24px;
+  }
+  .localBanner h2 {
+    font-size: 22px;
+    line-height: 28px;
+  }
+  .localBanner .primaryLink {
+    width: 100%;
+    font-size: 13px;
+  }
+  .resultsToolbar {
+    gap: 10px;
+  }
+  .resultsToolbar > strong {
+    width: 100%;
+  }
+  .saveSearch {
+    margin-left: 0;
+    font-size: 12px;
+  }
+  .empty {
+    padding: 40px 20px;
+  }
+  .skeletonCard {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .detailTitle {
+    font-size: 26px;
+    line-height: 34px;
+  }
+  .detailLabels > span:last-child {
+    margin-left: 0;
+  }
+  .specs {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .specs dd {
+    font-size: 18px;
+  }
+  .specTable {
+    grid-template-columns: 140px minmax(0, 1fr);
+  }
+  .guide h1 {
+    font-size: 28px;
+    line-height: 36px;
+  }
+  .guideCards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .guideCards > a {
+    padding: 20px;
+  }
+  .back {
+    margin-bottom: 20px;
+  }
+}
