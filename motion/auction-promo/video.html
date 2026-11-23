@@ -1,0 +1,29 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><title>Аукцион · Циан</title>
+<link rel="stylesheet" href="../brand/brand.css">
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:1920px;height:1080px;overflow:hidden;background:#f3f4fa}body{font-family:var(--font)}
+#app{position:absolute;inset:0;background:radial-gradient(ellipse at 75% 25%,#e5efff,transparent 65%),#f3f4fa}
+.window{position:absolute;overflow:hidden;background:white;box-shadow:0 24px 90px #152a5b22;border:1px solid #e3e8f4;border-radius:32px}
+#property{left:275px;top:58px;width:446px;height:964px}#property img{width:446px;display:block}
+#focus{left:1000px;top:58px;width:554px;height:964px;background:#f3f4fa}#focus img{position:absolute;left:0;top:0;width:554px;display:none;transform-origin:50% 25%}
+#cursor{position:absolute;width:34px;height:45px;z-index:8;filter:drop-shadow(0 2px 3px #0005)}
+#ring{position:absolute;width:68px;height:68px;border:4px solid #0468ff;border-radius:50%;opacity:0;z-index:7}
+#line{position:absolute;height:4px;left:790px;top:535px;width:135px;background:#d5dfef;border-radius:5px;overflow:hidden}#line b{display:block;height:100%;background:#0468ff}
+</style>
+<div id="app"><div class="window" id="property"><img src="assets/apartment.png"></div><div id="line"><b></b></div><div class="window" id="focus"></div><svg id="cursor" viewBox="0 0 34 45"><path d="M3 2 L3 34 L12 27 L20 42 L27 38 L19 24 L31 22 Z" fill="#0f172b" stroke="white" stroke-width="3"/></svg><div id="ring"></div></div>
+<script>
+window.PLAN={duration:15,fps:30,hold:2,language:'ru',vo:[]};window.DURATION=15;window.FPS=30;window.CUES=[];
+const names=['conditions','review','published','apartment','bid',...Array.from({length:8},(_,i)=>'type-'+(i+1)),'pending','accepted'];
+const imgs={};for(const name of names){const im=new Image();im.src='assets/'+name+'.png';document.querySelector('#focus').append(im);imgs[name]=im}
+const clamp=x=>Math.max(0,Math.min(1,x));const ease=x=>{x=clamp(x);return x*x*(3-2*x)};
+window.render=function(t){
+ const name=t<2?'conditions':t<3.6?'review':t<4.4?'published':t<6.5?'apartment':t<7.4?'bid':t<9.2?'type-'+Math.min(8,1+Math.floor((t-7.4)/.2)):t<10?'type-8':t<12?'pending':'accepted';
+ for(const [n,im] of Object.entries(imgs))im.style.display=n===name?'block':'none';
+ let y=0;if(name==='review')y=-20*ease((t-2)/1.3);if(name==='apartment')y=-130*ease((t-4.4)/2.1);if(name==='accepted')y=110;
+ imgs[name].style.transform=`translateY(${y}px)`;document.querySelector('#line b').style.width=100*clamp(t/12)+'%';
+ let x=1420,cy=700,show=true;if(t<2){x=1435;cy=770-160*ease(t/1.8)}else if(t<3.6){x=1370;cy=850}else if(t<6.5){show=false}else if(t<9.2){x=1260;cy=700}else if(t<10){x=1360;cy=805}else{show=false}
+ const c=document.querySelector('#cursor');c.style.display=show?'block':'none';c.style.left=x+'px';c.style.top=cy+'px';
+ const d=Math.min(Math.abs(t-3.5),Math.abs(t-9.85));const r=document.querySelector('#ring');r.style.left=(x-20)+'px';r.style.top=(cy-20)+'px';r.style.opacity=d<.22?1-d/.22:0;r.style.transform=`scale(${1+(.22-d)*2})`;
+};
+Promise.all(Object.values(imgs).map(i=>i.decode())).then(()=>document.fonts.load('400 20px Lato')).then(()=>{render(0);window.READY=true});
+</script></html>
