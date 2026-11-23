@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { UIKitPage } from './pages/UIKitPage';
 import { AuctionPage } from './pages/AuctionPage';
+import { AuctionMapPage } from './pages/AuctionMapPage';
 import { PrototypeProvider } from './hooks/PrototypeContext';
 import {
   HomePage,
@@ -24,6 +25,7 @@ export default function App() {
         <Route path="/search" element={<SearchPage />} />
         <Route path="/listing/:id" element={<DetailPage />} />
         <Route path="/auction/*" element={<AuctionPage />} />
+        <Route path="/map" element={<AuctionMapPage />} />
         <Route path="/ui" element={<UIKitPage prototype />} />
         <Route path="/guide" element={<GuidePage />} />
         <Route path="/patterns" element={<PatternsPage />} />

@@ -4,11 +4,21 @@ import { Badge, Button, Icon, Input } from '@/ui';
 import { PageLayout } from '@/components/Layout';
 import { Gallery } from '@/components/Realty';
 import { listingLabel, listings, money } from '@/data/listings';
+import { reachAuctionGoal } from '@/analytics/metrika';
 import s from './AuctionPage.module.css';
 
 type Role = 'seller' | 'buyer';
 type SellerStep = 'listing' | 'setup' | 'review' | 'published';
 type BidState = 'idle' | 'loading' | 'accepted' | 'failed';
+type AuctionMapState =
+  | 'conditions'
+  | 'review'
+  | 'published'
+  | 'pending'
+  | 'accepted'
+  | 'below-min'
+  | 'error'
+  | 'finished';
 
 const listing = listings[0];
 const auctionPhotos = [
@@ -39,15 +49,28 @@ function formatFinish(value: string) {
         .replace(/ в /g, '\u00a0в\u00a0');
 }
 
-function useAuction(buyerDemo: boolean) {
-  const [step, setStep] = useState<SellerStep>('listing');
+function useAuction(buyerDemo: boolean, mapState: AuctionMapState | null) {
+  const startsPublished =
+    buyerDemo ||
+    mapState === 'published' ||
+    mapState === 'pending' ||
+    mapState === 'accepted' ||
+    mapState === 'below-min' ||
+    mapState === 'error' ||
+    mapState === 'finished';
+  const [step, setStep] = useState<SellerStep>(() => {
+    if (mapState === 'conditions') return 'setup';
+    if (mapState === 'review') return 'review';
+    if (mapState === 'published') return 'published';
+    return 'listing';
+  });
   const [placementStep, setPlacementStep] = useState(0);
   const [startingPrice, setStartingPrice] = useState('19900000');
   const [increment, setIncrement] = useState('100000');
   const [finishDate, setFinishDate] = useState(defaultFinish);
   const [errors, setErrors] = useState<Partial<Record<keyof AuctionTerms, string>>>({});
   const [published, setPublished] = useState<AuctionTerms | null>(() =>
-    buyerDemo
+    startsPublished
       ? {
           startingPrice: 19_900_000,
           increment: 100_000,
@@ -55,11 +78,26 @@ function useAuction(buyerDemo: boolean) {
         }
       : null,
   );
-  const [currentBid, setCurrentBid] = useState<number | null>(null);
-  const [bid, setBid] = useState('');
-  const [bidState, setBidState] = useState<BidState>('idle');
-  const [bidError, setBidError] = useState('');
-  const [finished, setFinished] = useState(false);
+  const [currentBid, setCurrentBid] = useState<number | null>(
+    mapState === 'accepted' ? 20_000_000 : null,
+  );
+  const [bid, setBid] = useState(
+    mapState === 'pending' || mapState === 'accepted' || mapState === 'error'
+      ? '20000000'
+      : mapState === 'below-min'
+        ? '1'
+        : '',
+  );
+  const [bidState, setBidState] = useState<BidState>(() => {
+    if (mapState === 'pending') return 'loading';
+    if (mapState === 'accepted') return 'accepted';
+    if (mapState === 'error') return 'failed';
+    return 'idle';
+  });
+  const [bidError, setBidError] = useState(
+    mapState === 'below-min' ? 'Минимальная ставка — 19 900 000 ₽' : '',
+  );
+  const [finished, setFinished] = useState(mapState === 'finished');
   const [pendingBid, setPendingBid] = useState<number | null>(null);
   const minBid = published
     ? currentBid === null
@@ -68,14 +106,15 @@ function useAuction(buyerDemo: boolean) {
     : 0;
 
   useEffect(() => {
-    if (bidState !== 'loading' || pendingBid === null || finished) return;
+    if (mapState === 'pending' || bidState !== 'loading' || pendingBid === null || finished) return;
     const timer = window.setTimeout(() => {
       setCurrentBid(pendingBid);
       setBidState('accepted');
       setPendingBid(null);
+      reachAuctionGoal('auction_buyer_bid_accepted', { role: 'buyer', step: 'bid-accepted' });
     }, 700);
     return () => window.clearTimeout(timer);
-  }, [bidState, pendingBid, finished]);
+  }, [bidState, pendingBid, finished, mapState]);
 
   const publish = () => {
     if (currentBid !== null || bidState === 'loading' || finished) return;
@@ -98,16 +137,20 @@ function useAuction(buyerDemo: boolean) {
     if (!Number.isSafeInteger(numericBid) || numericBid < minBid) {
       setBidError(`Минимальная ставка — ${money(minBid)}`);
       setBidState('idle');
+      reachAuctionGoal('auction_buyer_bid_below_min', { role: 'buyer', step: 'bid-validation' });
       return;
     }
     setBidError('');
     setPendingBid(numericBid);
     setBidState('loading');
+    reachAuctionGoal('auction_buyer_bid_submit', { role: 'buyer', step: 'bid-submit' });
+    reachAuctionGoal('auction_buyer_bid_pending', { role: 'buyer', step: 'bid-pending' });
   };
   const finish = () => {
     setFinished(true);
     setPendingBid(null);
     setBidState(currentBid === null ? 'idle' : 'accepted');
+    reachAuctionGoal('auction_buyer_auction_finished', { role: 'buyer', step: 'finished' });
   };
   return {
     step,
@@ -200,7 +243,10 @@ function AuctionHome({
         <Link
           className={s.homeListing}
           to="/auction/apartment"
-          onClick={onOpenBuyer}
+          onClick={() => {
+            reachAuctionGoal('auction_buyer_listing_open', { role: 'buyer', step: 'listing-open' });
+            onOpenBuyer();
+          }}
           aria-label="Открыть квартиру: Светлая квартира у&nbsp;парка"
         >
           <div className={s.homeListingPhoto}>
@@ -279,7 +325,14 @@ function PlacementStart({ auction }: { auction: Auction }) {
             key={choice}
             theme="stroke_primary"
             disabled={choice !== enabled[placementStep]}
-            onClick={() => setPlacementStep(placementStep + 1)}
+            onClick={() => {
+              reachAuctionGoal('auction_seller_placement_choice', {
+                role: 'seller',
+                step: 'placement-choice',
+                choice,
+              });
+              setPlacementStep(placementStep + 1);
+            }}
           >
             {choice}
           </Button>
@@ -330,6 +383,18 @@ function SellerScenario({ auction, onOpenBuyer }: { auction: Auction; onOpenBuye
   const draft = { startingPrice: startingPriceNumber, increment: incrementNumber, finishDate };
   const canEdit = currentBid === null && auction.bidState !== 'loading' && !finished;
 
+  useEffect(() => {
+    if (step === 'setup') {
+      reachAuctionGoal('auction_seller_conditions_view', { role: 'seller', step: 'conditions' });
+    }
+    if (step === 'review') {
+      reachAuctionGoal('auction_seller_review_view', { role: 'seller', step: 'review' });
+    }
+    if (step === 'published') {
+      reachAuctionGoal('auction_seller_published_view', { role: 'seller', step: 'published' });
+    }
+  }, [step]);
+
   const review = () => {
     const nextErrors = {
       startingPrice:
@@ -349,7 +414,10 @@ function SellerScenario({ auction, onOpenBuyer }: { auction: Auction; onOpenBuye
     setErrors(nextErrors);
     const firstError = Object.entries(nextErrors).find(([, error]) => error)?.[0];
     if (firstError) document.getElementById(`auction-${firstError}`)?.focus();
-    else setStep('review');
+    else {
+      reachAuctionGoal('auction_seller_review_open', { role: 'seller', step: 'review' });
+      setStep('review');
+    }
   };
 
   if (step === 'listing')
@@ -374,7 +442,18 @@ function SellerScenario({ auction, onOpenBuyer }: { auction: Auction; onOpenBuye
               <p>Вы&nbsp;задаёте стартовую цену и&nbsp;срок. Покупатели предлагают свою цену.</p>
             </div>
           </div>
-          <Button fullWidth size="L" disabled={!canEdit} onClick={() => setStep('setup')}>
+          <Button
+            fullWidth
+            size="L"
+            disabled={!canEdit}
+            onClick={() => {
+              reachAuctionGoal('auction_seller_choose_auction', {
+                role: 'seller',
+                step: 'sale-method',
+              });
+              setStep('setup');
+            }}
+          >
             Продать на&nbsp;аукционе
           </Button>
           {!canEdit && (
@@ -504,7 +583,14 @@ function SellerScenario({ auction, onOpenBuyer }: { auction: Auction; onOpenBuye
               Оплата и&nbsp;оформление сделки в&nbsp;прототип не&nbsp;входят.
             </div>
             <div className={s.formActions}>
-              <Button fullWidth size="L" onClick={publish}>
+              <Button
+                fullWidth
+                size="L"
+                onClick={() => {
+                  reachAuctionGoal('auction_seller_publish', { role: 'seller', step: 'publish' });
+                  publish();
+                }}
+              >
                 Опубликовать аукцион
               </Button>
               <Button fullWidth theme="main_secondary" onClick={() => setStep('setup')}>
@@ -685,7 +771,13 @@ function BuyerScenario({ auction, onOpenSeller }: { auction: Auction; onOpenSell
             </p>
             <details className={s.simulations}>
               <summary>Демо-состояния</summary>
-              <button type="button" onClick={() => setBidState('failed')}>
+              <button
+                type="button"
+                onClick={() => {
+                  reachAuctionGoal('auction_buyer_bid_error', { role: 'buyer', step: 'bid-error' });
+                  setBidState('failed');
+                }}
+              >
                 Показать ошибку ответа
               </button>
               <button type="button" onClick={finish}>
@@ -700,13 +792,24 @@ function BuyerScenario({ auction, onOpenSeller }: { auction: Auction; onOpenSell
 }
 
 export function AuctionPage() {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
   const navigate = useNavigate();
   const isHome = pathname === '/auction' || pathname === '/auction/';
   const isSearch = pathname.endsWith('/search');
   const isPlacement = pathname.endsWith('/place');
   const role: Role = pathname.endsWith('/seller') || isPlacement ? 'seller' : 'buyer';
-  const auction = useAuction(role === 'buyer' && !isHome && !isSearch);
+  const mapState = new URLSearchParams(search).get('map') as AuctionMapState | null;
+  const auction = useAuction(role === 'buyer' && !isHome && !isSearch, mapState);
+  useEffect(() => {
+    if (isHome) reachAuctionGoal('auction_buyer_home_view', { role: 'buyer', step: 'home' });
+    else if (isSearch)
+      reachAuctionGoal('auction_buyer_search_view', { role: 'buyer', step: 'search' });
+    else if (isPlacement)
+      reachAuctionGoal('auction_seller_home_view', { role: 'seller', step: 'placement' });
+    else if (role === 'seller')
+      reachAuctionGoal('auction_seller_listing_view', { role: 'seller', step: 'listing' });
+    else reachAuctionGoal('auction_buyer_listing_view', { role: 'buyer', step: 'listing' });
+  }, [isHome, isPlacement, isSearch, role]);
   const openBuyer = () => {
     auction.ensurePublished();
     navigate('/auction/apartment');
@@ -718,7 +821,16 @@ export function AuctionPage() {
           <img src="/images/logo.svg" alt="Циан" width="104" height="26" />
         </Link>
         {!isPlacement && (
-          <Link className={s.placeLink} to="/auction/place">
+          <Link
+            className={s.placeLink}
+            to="/auction/place"
+            onClick={() =>
+              reachAuctionGoal('auction_seller_placement_start', {
+                role: 'seller',
+                step: 'placement',
+              })
+            }
+          >
             <Icon name="ActionPlus16" size={16} /> Разместить
           </Link>
         )}
