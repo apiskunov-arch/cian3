@@ -2,6 +2,8 @@
 
 This repository is a designer workspace for clickable Cian prototypes. Read `docs/README.md` for setup and `docs/prototyping.md` for routes and data flow.
 
+At the start of every task, read and follow the project skill [cian-task](.agents/skills/cian-task/SKILL.md).
+
 For interface design or prototype changes, use the project skill `.agents/skills/cian-design/SKILL.md`. Keep changes within the requested scenario. Reuse the available UI kit and page components; record meaningful new behavior in `docs/`.
 
 Run `npm run typecheck`, `npm run lint`, `npm test`, and `npm run build` before delivering code changes. Inspect changed layouts in a browser. Preserve the original snapshot in `public/reference/`; adaptations belong in `src/`.
